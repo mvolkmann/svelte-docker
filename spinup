@@ -3,7 +3,6 @@
 APP_NAME=svelte-app
 IMAGE_NAME=svelte-project
 CONTAINER_NAME=svelte-project
-#USER_NAME=dev
 USER_NAME=node
 CONTAINER_DIR=/home/$USER_NAME/$APP_NAME
 
@@ -22,7 +21,14 @@ docker ps --quiet --filter "name=$CONTAINER_NAME" | grep --quiet . && docker sto
 # Delete dangling images and stopped containers..
 docker system prune --force
 
-mkdir $APP_NAME
+if [ ! -d $APP_NAME ]
+then
+  # Create a starting point for a new Svelte app.
+  npx degit sveltejs/template $APP_NAME
+  pushd $APP_NAME
+  npm install
+  popd
+fi
 
 # Run the image inside a container.
 docker run \
@@ -32,10 +38,8 @@ docker run \
   --publish 5000:5000 \
   --rm \
   --tty \
-  # The next line prevents "npm degit" from working!  Why?
-  --volume $SVELTE_DIR/svelte-docker/container:/home/$USER_NAME \
+  --volume $APP_NAME:/home/$USER_NAME/$APP_NAME \
   "$IMAGE_NAME"
-#--volume ~/$APP_NAME:/home/$USER_NAME/$APP_NAME \
 #--mount source=$APP_NAME,target=/home/$USER_NAME/$APP_NAME \
 
 # Get the container id.
