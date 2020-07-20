@@ -38,9 +38,9 @@ docker run \
   --publish 5000:5000 \
   --rm \
   --tty \
-  --volume $APP_NAME:/home/$USER_NAME/$APP_NAME \
+  --mount source=$APP_NAME,target=/home/$USER_NAME/$APP_NAME \
   "$IMAGE_NAME"
-#--mount source=$APP_NAME,target=/home/$USER_NAME/$APP_NAME \
+  #--volume $APP_NAME:/home/$USER_NAME/$APP_NAME \
 
 # Get the container id.
 containerId=`docker ps --last 1 --quiet`
