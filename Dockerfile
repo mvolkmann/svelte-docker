@@ -4,8 +4,6 @@ EXPOSE 5000
 # Doesn't work without this!
 ENV HOST=0.0.0.0
 
-ENV APP_NAME=svelte-app
-
 # The apk update command updates the index of available packages.
 # The apk add command adds and upgrades packages.
 # Using --no-cache in the apk commands below keeps the image size small.
